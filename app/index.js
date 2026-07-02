@@ -1,8 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const { Pool } = require("pg");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
+
+// Rest bleibt gleich...
 
 // Verbindung zur Postgres-Datenbank
 const pool = new Pool({
@@ -47,7 +51,9 @@ app.delete("/users/:id", async (req, res) => {
   res.json({ message: "User gelöscht" });
 });
 
-app.listen(3000, async () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, async () => {
   await init();
-  console.log("API läuft auf http://localhost:3000");
+  console.log(`API läuft auf Port ${PORT}`);
 });
